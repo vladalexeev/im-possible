@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="blogpost">
+<div class="post-title">
+{% if user_info.admin and not blogpost.visible %}
+  [*** Hidden]
+{% endif %}
+{{ blogpost.title }}
+</div>      
+<div class="post-details">
+{{ blogpost.date|date:"d.m.Y H:i" }} 
+{% if blogpost.author %}
+  <b>{{ blogpost.author.nickname }}</b>
+{% else %}
+  anonymous
+{% endif %}
+{{ blogpost.language }}
+</div>
+      
+<div class="post-actions">
+{% if user_info.admin %}
+  <a href="/post/delete?{{ blogpost.post_key_param }}">Delete post</a>
+  <a href="/post/edit?{{ blogpost.post_key_param }}">Edit post</a>
+  {% if blogpost.comments_enabled %}
+    <a href="/post/comments_disable?{{ blogpost.post_key_param }}">Disable comments</a>
+  {% else %}
+    <a href="/post/comments_enable?{{ blogpost.post_key_param }}">Enable comments</a>
+  {% endif %}
+  {% if blogpost.visible %}
+    <a href="/post/hide?{{ blogpost.post_key_param }}">Hide post</a>
+  {% else %}    
+    <a href="/post/show?{{ blogpost.post_key_param }}">Show post</a>
+  {% endif %}
+  <a href="#" onclick="ajaxSendRequest('/admin/user/ban?{{ blogpost.post_key_param }}')">Ban user</a>
+{% endif %}
+      
+{% ifequal user_info.user blogpost.author %}
+  {% if not user_info.admin and not user_info.banned %}
+    <a href="/post/edit?{{ blogpost.post_key_param }}">edit</a>
+  {% endif %}
+{% endifequal %}
+</div>
+      
+{% include "part-votes.html" %} 
+<div class="post-content">{{ blogpost.content|striptags|escape|show_hyperlinks|splitlongwords|linebreaks }}</div>
+{% if blogpost.attached_cube_figure %}
+<div style="text-align: center">
+{{ blogpost.attached_cube_figure|cube_figure_thumbnail }}
+</div>
+{% endif %}
+<div style="clear:both"></div>
+
+{% if user_info.admin %}      
+<div>Votes: {{ blogpost.votes }}</div>
+{% endif %}
+</div>
+      
+<div class="delimiter"></div>   
+
+<p>
+Comment count: {{ comments.count }} 
+</p> 
+      
+{% for comment in comments %}
+<div class="comment-details">
+  {{ comment.date|date:"d.m.Y H:i" }} 
+  {% if comment.author %}
+    <b>{{ comment.author.nickname }}</b>
+  {% else %}
+    anonymous
+  {% endif %}
+</div>
+      
+{% if user_info.admin %}
+  <div class="comment-actions">
+  <a href="/comment/delete?{{ comment.comment_key_param }}&{{ blogpost.post_key_param }}">delete</a>
+  <a href="/comment/edit?{{ comment.comment_key_param }}&{{ blogpost.post_key_param }}">edit</a>
+  <a href="#" onclick="ajaxSendRequest('/admin/user/ban?{{ comment.comment_key_param }}')">ban user</a>
+  </div>
+{% endif %}
+
+<div class="comment-content">{{ comment.content|escape|linebreaks }}</div>
+{% endfor %} 
+
+<div class="delimiter"></div>     
+      
+{% if blogpost.comments_enabled %}
+{% if user_info.user and not user_info.banned %}
+  <form action="/comment/sign?{{ blogpost.post_key_param }}" method="post" name="commentForm" onsubmit="return checkForm()">
+    <div><textarea name="content" rows="3" cols="60"></textarea></div>
+    <div><input type="submit" value="Post comment"></div>
+  </form>
+  
+  <script language="JavaScript">
+  function checkForm() {
+    commentContent=document.commentForm.content.value;
+    if (!commentContent || commentContent.trim().length==0) {
+      alert("Please, enter comment content");
+      return false;
+    }
+    
+    return true;
+  }
+  </script>
+{% endif %}
+
+{% if not user_info.user %}
+  <p>To post comments you should <a href="{{ user_info.login_url }}">login to your Google account</a></p>
+{% endif %}
+{% endif %}
+      
+{% endblock content %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="/comment/change?key={{ comment.key }}&return={{ return_target }}" method="post">
+  <div><textarea name="content" rows="3" cols="60">{{ comment.content }}</textarea></div>
+  <div><input type="submit" value="Save comment"></div>
+</form>  
+      
+{% endblock content %}

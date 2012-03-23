@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% for comment in comments %}
+<div class="comment-details">
+  {{ comment.date|date:"d.m.Y H:i" }} 
+  {% if comment.author %}
+    <b>{{ comment.author.nickname }}</b>
+  {% else %}
+    anonymous
+  {% endif %}
+</div>
+      
+{% if user_info.admin %}
+  <div class="comment-actions">
+  <a href="/comment/delete?{{ comment.comment_key_param }}&{{ blogpost.post_key_param }}">delete</a>
+  <a href="/comment/edit?{{ comment.comment_key_param }}&{{ blogpost.post_key_param }}">edit</a>
+  <a href="#" onclick="ajaxSendRequest('/ban?{{ comment.comment_key_param }}')">ban user</a>
+  </div>
+{% endif %}
+
+<div class="comment-content">{{ comment.content|escape|linebreaks }}</div>
+{% endfor %}
+
+{% if prev_page_url %}
+<a href="{{ prev_page_url }}"><img src="/template/prev-page.gif" border="0"></a>
+{% endif %}
+
+{% if next_page_url %}
+<a href="{{ next_page_url }}"><img src="/template/next-page.gif" border="0"></a>
+{% endif %}
+      
+{% endblock content %}

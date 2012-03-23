@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Configuration</h1>
+<form action="/config/save" method="post">
+<div>
+<input type="checkbox" name="chk_show_ads" id="chk_show_ads" {% if config.show_ads %}checked="true"{% endif %} />
+<label for="chk_show_ads">Show ads</label>
+</div>
+<div>
+<input type="checkbox" name="chk_show_analytics" id="chk_show_analytics" {% if config.show_analytics %}checked="true"{% endif %} />
+<label for="chk_show_analytics">Show analytics</label>
+</div>
+<div>
+<input type="submit" value="Submit">
+</div>
+</form>  
+      
+{% endblock content %}

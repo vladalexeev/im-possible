@@ -1,0 +1,767 @@
+<html>
+<head>
+<title>Impossible figure constructor</title>
+<link href="/template/main.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+
+.workspace {
+  border: solid #6C9CE4 1px;
+  height: 1000px;  
+  background-image: url(/images/cube/rgb/background-grid.png);
+}
+
+.toolbar-header {
+  height:20px;
+  width:370px;
+  top:40;
+  left:20;
+  position: absolute;
+}
+
+.toolbar-header div {
+  padding: 2 2 2 2;
+  background-color:#6C9CE4;  
+  border-top: solid #6C9CE4 1px;
+  border-left: solid #6C9CE4 1px;
+  border-right: solid #6C9CE4 1px;
+  font-size: 10pt;
+  font-family: Verdana, Arial, sans-serif;
+  color: white;
+}
+
+.toolbar {
+  width: 370px;
+  height: 200px;
+  top:60px;
+  left:20px;
+  position: absolute;
+}
+
+.toolbar .toolbar-wrap {
+  background:#D3E5FF;
+  padding: 2 2 2 2;
+  border-bottom: solid #6C9CE4 1px;
+  border-left: solid #6C9CE4 1px;
+  border-right: solid #6C9CE4 1px;
+}
+
+.toolbar-buttons {
+  width:40px;
+  height:70px;
+  top:60px;
+  left:390px;
+  position: absolute;
+  background-color:#C3DBFF;
+  border-right: solid #6C9CE4 1px;
+  border-top: solid #6C9CE4 1px;
+  border-bottom: solid #6C9CE4 1px;
+}
+
+.toolbar-buttons div {
+  text-align:center;
+}
+
+.cube-button-normal {
+  padding: 2 2 2 2;
+  margin: 2 2 2 2; 
+  border: solid #D3E5FF 1px;
+}
+
+.cube-button-pressed {
+  background-color:#C3DBFF;
+  border: solid #6C9CE4 1px;
+  padding: 2 2 2 2;
+  margin: 2 2 2 2; 
+}
+
+.delimiter {
+  border: solid #6C9CE4 1px;
+  background-color: #6C9CE4;
+  height: 1px;
+  margin-left:50px;
+  margin-right:50px;
+  font-size: 1px;
+}
+
+.selected-cubes {
+  border: solid #6C9CE4 1px;
+  height:80px;
+  background-color:#EFF6FF;;
+}
+
+.selected-cubes-hint {
+  color: #6C9CE4;
+  font-size: 10px;
+  font-family: Verdana, Arial,sans-serif;
+  margin-left: 10;
+}
+
+.selected-cubes-scroll-pane {
+  text-align: right;
+}
+</style>
+</head>
+
+<body>
+<script type="text/javascript" src="/template/main.js"></script>
+<script type="text/javascript" src="/js/wz_dragdrop.js"></script> 
+
+<div class="toolbar-header" id="toolbarHeader"><div>Toolbar</div></div>
+<div class="toolbar" id="toolbar">
+<div class="toolbar-wrap">
+<div style="text-align:center">
+<img name="btn000001x" id="btn000001x" src="/images/cube/btn000001.png" onclick="onButtonCubeClick(this)" class="cube-button-normal" width="31" height="35" />
+<img name="btn000010x" id="btn000010x" src="/images/cube/btn000010.png" onclick="onButtonCubeClick(this)" class="cube-button-normal" width="31" height="35" />
+<img name="btn000100x" id="btn000100x" src="/images/cube/btn000100.png" onclick="onButtonCubeClick(this)" class="cube-button-normal" width="31" height="35" />
+<img name="btn001000x" id="btn001000x" src="/images/cube/btn001000.png" onclick="onButtonCubeClick(this)" class="cube-button-normal" width="31" height="35" />
+<img name="btn010000x" id="btn010000x" src="/images/cube/btn010000.png" onclick="onButtonCubeClick(this)" class="cube-button-normal" width="31" height="35" />
+<img name="btn100000x" id="btn100000x" src="/images/cube/btn100000.png" onclick="onButtonCubeClick(this)" class="cube-button-normal" width="31" height="35" />
+</div>
+
+<div class="delimiter"></div>
+<div style="height:10px"></div>
+<div id="selectedCubesPane" class="selected-cubes">
+<div class="selected-cubes-hint">Drag cubes from here</div>
+</div>
+
+<div class="selected-cubes-scroll-pane">
+<img id="btnScrollCubesLeft" src="/images/cube/arrow-left.png" onclick="onScrollSelectedCubesLeft()" style="visibility:hidden"/>
+<img id="btnScrollCubesRight" src="/images/cube/arrow-right.png" onclick="onScrollSelectedCubesRight()" style="visibility:hidden"/>
+</div>
+
+
+{% comment %}
+{% for binary in binaries %}
+<img name="cube{{ binary }}x" src="{{ static_files|hash:binary }}"  style="display:none"/> 
+{% endfor%}
+{% endcomment %}
+
+
+
+
+
+</div>
+</div>
+
+{% for item in binary_items %}
+   <div id="cube{{ item.binary }}x" 
+     style="background: url('{{ profile.static_cubes_image }}') no-repeat {{ item.map_x }}px {{ item.map_y }}px; width:{{profile.cube_width}}px; height:{{profile.cube_height}}px; position:absolute; visibility:hidden;"></div>      
+
+{% endfor %}
+
+
+
+
+<div class="toolbar-buttons" id="toolbarButtons">
+  <div><img src="/images/cube/home-norm.png" width="32" height="32" alt="My figures" title="My figures" onclick="onHomeButtonClick()"/></div>
+  <div><img src="/images/cube/save-norm.png" width="32" height="32" alt="Save changes" title="Save changes" onclick="onSaveButtonClick()"/></div>
+</div>
+
+<div class="workspace" id="workspace">
+</div>
+
+  <form name="figureForm" method="post" action="/cube/figure/save?{{ figure.figure_key_param }}" onsubmit="onFormSubmit()">
+    <input name="figure_comp" id="figure_comp" type="hidden" />
+
+    <center>
+      <div class="dialog-header" id="dlgSaveHeader"><div class="dialog-header-content">Confirmation</div></div>
+      <div class="dialog-frame" id="dlgSaveFrame">
+        <div class="dialog-frame-content">
+          <div>Enter name of the figure</div>
+          <div><input name="figure_name" type="text" style="width:100%" value="{{ figure.name }}"/></div>
+          <div style="text-align:right">
+            <input type="button" name="btnSaveOK" value="OK" onclick="onBtnSaveOKClick()"/>
+            <input type="button" name="btnSaveCancel" value="Cancel" onclick="onBtnSaveCancelClick()" />
+          </div>
+        </div>
+      </div>      
+       
+<!--        
+     name<input name="NAME" type="text" size="12">
+     x<input name="X" type="text" size="12">
+     y<input name="Y" type="text" size="12">
+     na<input name="NA" type="text" size="12">
+     nb<input name="NB" type="text" size="12">
+     copies<input name="COPIES" type="text" size="12">
+     cubeCount<input name="CUBE_COUNT" type="text" size="12">
+     cubeIndex<input name="CUBE_INDEX" type="text" size="12">
+-->
+    </center>
+  </form>
+  
+<script type="text/javascript">
+var cubeImageWidth={{ profile.cube_width }};//45;
+var cubeImageHeight={{ profile.cube_height }};//49;
+var cubeCenterX={{ profile.cube_center_x }};// 22;
+var cubeCenterY={{ profile.cube_center_y }};//23;
+var gridStepX={{ profile.grid_width }};//62;
+var gridStepY={{ profile.grid_height }};//36;
+var gridAspectXY=gridStepX/gridStepY;
+
+var dlgSave=new JSDialog(document.getElementById("dlgSaveHeader"), document.getElementById("dlgSaveFrame"),400,200);
+
+var cubeButtons=new Array(6);
+cubeButtons[0]=document.getElementById("btn000001x");
+cubeButtons[1]=document.getElementById("btn000010x");
+cubeButtons[2]=document.getElementById("btn000100x");
+cubeButtons[3]=document.getElementById("btn001000x");
+cubeButtons[4]=document.getElementById("btn010000x");
+cubeButtons[5]=document.getElementById("btn100000x");
+
+for (var i=0; i<cubeButtons.length; i++) {
+  cubeButtons[i].cubeChecked=false;
+  cubeButtons[i].cubeMask=cubeButtons[i].id.substr(3,6);
+}
+
+
+var cubesWereDragged=false;
+
+//Selected DD objects (cubes)
+var selectedCubes;
+var selectedFirstVisibleCube;
+
+//Constructor of the point object
+function Point(x,y,na,nb) {
+  this.x=x;
+  this.y=y;
+  this.na=na;
+  this.nb=nb;
+}
+
+//Returns new point for na and nb values
+function PointNaNb(na,nb) {
+  var nna=na*gridStepX;
+  var nnb=nb*gridStepX;
+  var nnx=Math.round((nna+nnb)/2);
+  var nny=Math.round((nnx-nna)/gridAspectXY);
+  return new Point(nnx,nny,na,nb);
+}
+
+//Returns nearest point to the cube grid
+function getNearestPoint(x,y) {
+  var a=x-gridAspectXY*y;
+  var na=Math.floor(a/gridStepX);
+  if ((a % gridStepX)>=(gridStepX/2)) {
+    na+=1;
+  }
+  var nna=na*gridStepX;
+  
+  
+  var b=x+gridAspectXY*y;
+  var nb=Math.floor(b/gridStepX);
+  if ((b % gridStepX)>=(gridStepX/2)) {
+    nb+=1;
+  }
+  var nnb=nb*gridStepX;
+  
+  nnx=Math.round((nna+nnb)/2);
+  nny=Math.round((nnx-nna)/gridAspectXY);
+  
+  
+  
+  return new Point(nnx,nny,na,nb);
+}
+
+//Merges masks from all cube buttons
+function getMergedCubeMask() {
+  mask="000000";
+  for (var i=0; i<cubeButtons.length; i++) {
+    if (cubeButtons[i].cubeChecked) {
+      cubeMask=cubeButtons[i].cubeMask;
+      newMask="";
+      for (var j=0; j<6; j++) {
+        if (mask.substr(j,1)=="1" || cubeMask.substr(j,1)=="1") {
+          newMask+="1";
+        } else {
+          newMask+="0";
+        }
+      }
+      
+      mask=newMask;
+    }
+  }
+  
+  return mask;
+}
+
+//Checks if cubeMask fits to mergedMask
+//Returns true if cubeMask consist mergedMask
+function compareMasks(mergedMask, cubeMask) {
+  for (var i=0; i<6; i++) {
+    if (mergedMask.substr(i,1)=="1" && cubeMask.substr(i,1)!="1") {
+      return false;
+    }
+  }
+  
+  return true;
+}
+
+//Converts integer value to string in binary code
+function toBinaryString(value,digitCount) {
+  var result="";
+  for (var i=0; i<digitCount; i++) {
+    var d=value % 2;
+    value=Math.floor(value / 2);
+    if (d==1) {
+      result="1"+result;
+    } else {
+      result="0"+result;
+    }
+  }
+  return result;
+}
+
+//Get all cube masks, which fit to mergedMask
+function getCubeMasks(mergedMask) {
+  var result=new Array();
+  for (var i=1; i<64; i++) {
+    var st=toBinaryString(i,6);
+    if (compareMasks(mergedMask,st)) {
+      result[result.length]=st;
+    }
+  }
+  
+  return result;
+}
+
+//Returns drag-drop objects for masks
+function getDDObjectsByMasks(masks) {
+  var result=new Array(masks.length);
+  for (var i=0; i<masks.length; i++) {
+    var name="cube"+masks[i]+"x";
+    result[i]=dd.elements[name];
+  } 
+  
+  return result;
+}
+
+function hideSelectedCubes() {
+  if (selectedCubes) {
+    for (var i=0; i<selectedCubes.length; i++) {
+      dd.elements.toolbar.detachChild(selectedCubes[i]);
+      selectedCubes[i].hide();
+    }
+  }
+}
+
+function showSelectedCubes() {
+  if (selectedCubes) {
+    dd.elements.cube000000x.show();
+    dd.elements.cube000000x.moveTo(dd.elements.selectedCubesPane.x+5, dd.elements.selectedCubesPane.y+20);
+    dd.elements.cube000000x.resizeTo(cubeImageWidth,cubeImageHeight); //for IE6 only
+    dd.elements.cube000000x.maximizeZ();
+  
+    var firstCube=selectedFirstVisibleCube;
+    for (var i=firstCube; i<Math.min(firstCube+5,selectedCubes.length); i++) {
+      var pos=i-firstCube;
+      dd.elements.toolbar.attachChild(selectedCubes[i]);
+      selectedCubes[i].show();      
+      selectedCubes[i].moveTo(
+        dd.elements.selectedCubesPane.x+75+(cubeImageWidth+8)*pos,
+        dd.elements.selectedCubesPane.y+20
+      )
+      selectedCubes[i].resizeTo(cubeImageWidth,cubeImageHeight); //for IE6 only
+      selectedCubes[i].maximizeZ();
+    }
+    
+    if (firstCube==0) {
+      document.getElementById("btnScrollCubesLeft").style.visibility="hidden";
+    } else {
+      document.getElementById("btnScrollCubesLeft").style.visibility="visible";
+    }
+    
+    if (firstCube+5<selectedCubes.length) {
+      document.getElementById("btnScrollCubesRight").style.visibility="visible";
+    } else {
+      document.getElementById("btnScrollCubesRight").style.visibility="hidden";
+    }
+    
+  }
+}
+
+function onButtonCubeClick(sender) {
+  if (sender) {
+    if (sender.cubeChecked) {
+      sender.className="cube-button-normal";
+      sender.cubeChecked=false;
+    } else {
+      sender.className="cube-button-pressed";
+      sender.cubeChecked=true;
+    }
+  }
+  
+  var mergedMask=getMergedCubeMask();  
+  var cubeMasks=getCubeMasks(mergedMask);
+  
+  hideSelectedCubes();
+  selectedCubes=getDDObjectsByMasks(cubeMasks);
+  selectedFirstVisibleCube=0;
+  showSelectedCubes();
+}
+
+function onScrollSelectedCubesLeft() {
+  if (selectedFirstVisibleCube>0) {
+    selectedFirstVisibleCube--;
+    hideSelectedCubes();
+    showSelectedCubes();
+  }
+}
+
+function onScrollSelectedCubesRight() {
+  if (selectedCubes) {
+    if (selectedFirstVisibleCube+5<selectedCubes.length) {
+      selectedFirstVisibleCube++;
+      hideSelectedCubes();
+      showSelectedCubes();      
+    }
+  }
+}
+
+function onHomeButtonClick() {
+  if (cubesWereDragged) {
+    if (!confirm("You have moved cubes. Returning to your figures will discard all your chages.\nDo you want to continue?")) {
+      return;
+    }
+  }
+  
+  document.location="/cube/figures/user";
+}
+
+
+function onSaveButtonClick() {
+//  alert(compileFigure());
+  dlgSave.show();
+  document.figureForm.figure_name.focus();
+}
+
+function onBtnSaveCancelClick() {
+  dlgSave.hide();
+}
+
+function onBtnSaveOKClick() {
+  if (document.figureForm.figure_name.value==null || document.figureForm.figure_name.value=="") {
+    alert('Enter figure name')
+    return;
+  }
+
+  if (document.figureForm.figure_name.value.length>30) {
+    alert('Figure name should not be longer than 30 characters');
+    return;
+  }  
+  
+  document.figureForm.figure_comp.value=compileFigure();
+  //alert(document.figureForm.figure_comp.value);
+  document.figureForm.submit();  
+}
+
+function onFormSubmit() {
+  document.figureForm.figure_comp.value=compileFigure();
+  return true;
+}
+
+</script>
+
+
+<script language="JavaScript">
+//Figure compilation block
+
+
+//Constructor for compiled figure item
+function FigureItem(cubeIndex, binary, x, y, na, nb) {
+  this.cubeIndex=cubeIndex;
+  this.binary=binary;
+  this.x=x;
+  this.y=y;
+  this.na=na;
+  this.nb=nb;
+}
+
+//Inserts figure into array sorted by cubeIndex
+function insertFigure(arr, figure) {
+  arr[arr.length]=figure;
+  
+  for (var i=arr.length-2; i>=0; i--) {
+    if (arr[i].cubeIndex>figure.cubeIndex) {
+      arr[i+1]=arr[i]
+    } else {
+      arr[i+1]=figure;
+      return arr;
+    }
+  }
+  
+  arr[0]=figure;
+  return arr
+}
+
+
+function compileFigure() {
+  var result="";
+
+  var arr=new Array();
+  for (var elementIndex=0; elementIndex<dd.elements.length; elementIndex++) {
+    c=dd.elements[elementIndex];
+    if (c.visible && c.cubeWorkspace) {
+      arr=insertFigure(arr,new FigureItem(c.cubeIndex,c.name.substr(4,6),c.point.x,c.point.y,c.point.na,c.point.nb)); 
+      //result+="["+c.name.substr(4,6)+","+c.cubeIndex+","+c.point.x+","+c.point.y+","+c.point.na+","+c.point.nb+"]";
+    }
+  }
+  
+  for (var i=0; i<arr.length; i++) {
+    if (i>0) {
+      result+="\n";
+    }
+    result+=arr[i].binary+","+arr[i].na+","+arr[i].nb;
+  }
+  
+  return result;
+}
+</script>  
+
+<script type="text/javascript">
+SET_DHTML(CURSOR_MOVE, TRANSPARENT,"workspace"+NO_DRAG, 
+   "toolbarHeader", "toolbar"+NO_DRAG, "selectedCubesPane"+NO_DRAG, "toolbarButtons"+NO_DRAG,
+   "cube000000x", "cube000001x", "cube000010x", "cube000011x", 
+   "cube000100x", "cube000101x", "cube000110x", "cube000111x", 
+   "cube001000x", "cube001001x", "cube001010x", "cube001011x",
+   "cube001100x", "cube001101x", "cube001110x", "cube001111x",        
+   "cube010000x", "cube010001x", "cube010010x", "cube010011x", 
+   "cube010100x", "cube010101x", "cube010110x", "cube010111x",
+   "cube011000x", "cube011001x", "cube011010x", "cube011011x",
+   "cube011100x", "cube011101x", "cube011110x", "cube011111x",
+   "cube100000x", "cube100001x", "cube100010x", "cube100011x", 
+   "cube100100x", "cube100101x", "cube100110x", "cube100111x", 
+   "cube101000x", "cube101001x", "cube101010x", "cube101011x",
+   "cube101100x", "cube101101x", "cube101110x", "cube101111x",        
+   "cube110000x", "cube110001x", "cube110010x", "cube110011x", 
+   "cube110100x", "cube110101x", "cube110110x", "cube110111x",
+   "cube111000x", "cube111001x", "cube111010x", "cube111011x",
+   "cube111100x", "cube111101x", "cube111110x", "cube111111x"
+   );
+   
+var cubeCount=0;
+var cubeMaxIndex=0;
+
+//Each elements has such specific fields:
+//  cubeIndex - the absolute index of the cube
+//  cubeWorkspace - the sign indicates that the cube is placed to the workspace
+//  point - Point object of the place where cube was dropped
+//  binary - cube binary
+//  cubeCopiesCount - count of copies of the cube (for toolbar cube only)
+   
+dd.elements.toolbarHeader.sys=true;
+dd.elements.toolbar.sys=true;
+dd.elements.workspace.sys=true;
+dd.elements.selectedCubesPane.sys=true;
+dd.elements.toolbarButtons.sys=true;
+
+dd.elements.toolbarHeader.addChild(dd.elements.toolbar);
+dd.elements.toolbarHeader.addChild(dd.elements.toolbarButtons);
+dd.elements.toolbarHeader.maximizeZ();
+
+var elementCount=dd.elements.length;
+
+for (var i = 0; i < elementCount; i++)
+{
+    if (!dd.elements[i].sys) {
+      dd.elements[i].binary=dd.elements[i].name.substr(4,6);
+      dd.elements[i].cubeCopiesCount=0;
+      dd.elements[i].toolbarCube=true;
+      dd.elements.toolbarHeader.addChild(dd.elements[i]);
+    
+      clonedNode=dd.elements[i].div.cloneNode(true);
+      clonedNode.id=clonedNode.id+"_copy";
+      document.body.appendChild(clonedNode);      
+      
+      ADD_DHTML(clonedNode.id);
+      dd.elements[clonedNode.id].hide();
+    }   
+}
+
+// The following two functions override their empty namesakes predefined in wz_dragdrop.js.
+// They are automatically invoked from wz_dragdrop.js when a drag operation starts
+// and ends, respectively.
+
+// Here we make the non-transparent 'placeholder' copy of the dragged image visible
+// and move it to the place where the drag operation starts
+function my_PickFunc()
+{
+    if (!dd.obj.cubeWorkspace && !dd.obj.sys) {
+      var copyElementName=dd.obj.name+"_copy";
+      dd.elements[copyElementName].moveTo(dd.obj.x, dd.obj.y);
+      dd.elements[copyElementName].show();
+      dd.elements[copyElementName].maximizeZ();
+      dd.obj.maximizeZ();
+    }    
+}
+
+function my_DragFunc() {
+  if (!dd.obj.sys) {
+    var x=dd.obj.x-dd.elements.workspace.x+cubeCenterX;
+    var y=dd.obj.y-dd.elements.workspace.y+cubeCenterY;
+
+    p=getNearestPoint(x,y);
+    dd.obj.moveTo(p.x+dd.elements.workspace.x-cubeCenterX,p.y+dd.elements.workspace.y-cubeCenterY);
+    dd.obj.point=p
+  } else if (dd.obj.name=="toolbarHeader") {
+    //showSelectedCubes();
+  }
+}
+
+// Here we hide the 'placeholder' again
+function my_DropFunc()
+{
+  if (!dd.obj.sys) {
+    var copyElementName=dd.obj.name+"_copy";
+    if (!dd.obj.cubeWorkspace) {      
+      dd.elements[copyElementName].hide();
+    }
+    
+    var x=dd.obj.x;
+    var y=dd.obj.y;
+    
+    if (!dd.obj.cubeWorkspace) {      
+      if (isPointAllowedToWorkspace(x,y)) {
+        //Creating new copy of a cube
+        addFigureCube(dd.obj.binary,dd.obj.point.na, dd.obj.point.nb);
+        //var newCube=createCubeCopy(dd.obj);
+        //newCube.point=dd.obj.point
+        
+        //newCube.moveTo(x,y);
+        //newCube.show();      
+        //newCube.maximizeZ();            
+        //dd.elements.toolbarHeader.detachChild(newCube);
+      }
+      
+      //Return the original cube to the toolbar
+      dd.obj.moveTo(dd.elements[copyElementName].x,dd.elements[copyElementName].y)
+      dd.obj.maximizeZ();
+    } else {
+      cubeMaxIndex++;
+      dd.obj.cubeIndex=cubeMaxIndex;
+      
+      if (!isPointAllowedToWorkspace(x,y)) {
+        dd.obj.hide();
+      }
+    }
+    
+    //alert("1> "+dd.elements.cube000000x.z+" "+dd.obj.z);
+    
+    removeOverlappedCube(x,y);
+    
+    //hideSelectedCubes();
+    //showSelectedCubes();
+    
+    //alert("2> "+dd.elements.cube000000x.z+" "+dd.obj.z);
+    
+    cubesWereDragged=true;
+    
+    // Write the name and coordinates of the dropped item into form inputs:
+//    document.figureForm.NAME.value = dd.obj.name;
+//    document.figureForm.X.value = dd.obj.x;
+//    document.figureForm.Y.value = dd.obj.y;
+//    document.figureForm.NA.value = dd.obj.point.na;
+//    document.figureForm.NB.value = dd.obj.point.nb;        
+//    document.figureForm.COPIES.value = dd.obj.copies.length;
+//    document.figureForm.CUBE_COUNT.value=cubeCount;
+//    document.figureForm.CUBE_INDEX.value=cubeMaxIndex;
+  } 
+  
+  //showSelectedCubes();  
+}
+
+//Check if cube can be places to specified point
+function isPointAllowedToWorkspace(x,y) {
+  ws=dd.elements.workspace;
+  if (x<ws.x || y<ws.y || x>=(ws.x+ws.w) || y>=(ws.y+ws.h)) {
+    //alert("ws");
+    return false;
+  }
+  
+  tb=dd.elements.toolbar;
+  if (x<tb.x || y<tb.y || x>=(tb.x+tb.w) || y>=(tb.y+tb.h)) {
+    //alert("tb "+x+","+y+"   "+tb.x+","+tb.y+","+tb.h+","+tb.w);
+    return true;
+  }
+  
+  return false;
+}
+
+//Create a new copy of the cube or 
+//user one of invisible copies 
+function createCubeCopy(obj) {
+  for (var i=0; i<dd.elements.length; i++) {
+    if (dd.elements[i].cubeWorkspace && dd.elements[i].binary && 
+        dd.elements[i].binary==obj.binary && !dd.elements[i].visible) {
+      c=dd.elements[i]
+      c.maximizeZ();
+      cubeMaxIndex++;
+      c.cubeIndex=cubeMaxIndex;            
+      return c;
+    }
+  }
+
+  clonedNode=obj.div.cloneNode(true);
+  obj.cubeCopiesCount++;
+  clonedNode.id=obj.name+"_"+obj.cubeCopiesCount;
+  document.getElementById("workspace").appendChild(clonedNode);
+  cubeCount++;
+    
+  ADD_DHTML(clonedNode.id);
+  
+  var c=dd.elements[clonedNode.id];
+  c.parentName=obj.name;
+  c.binary=obj.binary;  
+  c.cubeWorkspace=1;
+  
+  cubeMaxIndex++;
+  c.cubeIndex=cubeMaxIndex;
+    
+  c.resizeTo(cubeImageWidth,cubeImageHeight);  //for IE6 only
+  return c;
+}
+
+//Find a toolbar cube by binary code
+function findToolbarCube(binary) {
+  for (var i=0; i<dd.elements.length; i++) {
+    c=dd.elements[i];
+    if (!c.sys && !c.cubeWorkspace && c.binary==binary) {
+      return c;
+    }
+  }
+}
+
+//Adds cube to workspace
+function addFigureCube(binary,na,nb) {
+  var toolbarCube=findToolbarCube(binary);
+  var point=PointNaNb(na,nb);
+  
+  point.x=point.x+dd.elements.workspace.x-cubeCenterX;
+  point.y=point.y+dd.elements.workspace.y-cubeCenterY;
+  
+  var cube=createCubeCopy(toolbarCube);
+  cube.point=point;
+  
+  cube.moveTo(point.x, point.y);
+  cube.show(); 
+  cube.maximizeZ();
+}
+
+//Hides cube that was on workspace in the same point
+function removeOverlappedCube(x,y) {
+  for (var i=0; i<dd.elements.length; i++) {
+    c=dd.elements[i];
+    if (c.cubeWorkspace && c.x==x && c.y==y && c.cubeIndex<cubeMaxIndex) {
+      c.hide();
+    } 
+  }
+}
+
+onButtonCubeClick(cubeButtons[0]);
+
+{% for cube in figure_cubes %}
+addFigureCube({{ cube }});
+{%  endfor %}
+
+</script> 
+</body>
+</html>

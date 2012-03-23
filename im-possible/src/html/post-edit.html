@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p>
+Only posts about impossible figures, art and the community are allowed here. 
+Spam posts with other themes will be deleted.
+</p>
+<p>
+You cannot use HTML-tags.
+</p>
+
+<form action="/post/sign?{{ blogpost.post_key_param }}" method="post" onsubmit="return checkForm()" name="postForm">
+  {{ attach_cube_figure|cube_figure_thumbnail|div_decorate }}
+  <div>Title <input type="text" name="title" size="60" value="{{ blogpost.title }}"></div>
+  <p></p>
+  <div>Message</div>
+  <div><textarea name="content" rows="10" cols="80">{{ blogpost.content }}</textarea></div>
+  {% if user_info.admin %}
+  <div>
+    Rating <input type="text" name="rating" id="rating" value="{{ blogpost.rating }}" />
+    <a href="javascript:setRating({{ now_rating }})" >[now]</a>
+    <a href="javascript:addRatingDay(1)">[+day]</a>
+    <a href="javascript:addRatingDay(7)">[+week]</a>
+    <a href="javascript:addRatingDay(7)">[+month]</a>
+  </div>
+  {% endif %}
+  
+  {% if attach_cube_figure %}
+    <input type="hidden" name="attach_cube_figure" value="{{ attach_cube_figure }}" />
+  {% endif %}
+    
+  {% if blogpost.attached_cube_figure %}
+  <div style="text-align: center">
+  {{ blogpost.attached_cube_figure|cube_figure_thumbnail }}
+  </div>
+  {% endif %}
+  
+  <div><input type="submit" value="Send post"></div>
+</form>  
+
+{% if user_info.admin %}
+<script language="JavaScript">
+function setRating(rating) {
+  input=document.getElementById("rating");
+  input.value=rating;
+}
+
+function addRatingDay(dayCount) {
+  secondCount=dayCount*24*60*60;
+  input=document.getElementById("rating");
+  input.value=parseInt(input.value)+secondCount;
+}
+
+function checkForm() {
+  title=document.postForm.title.value;
+  if (!title || title.trim().length=='') {
+    alert("Please, enter title of the post");
+    return false;
+  }
+  
+  content=document.postForm.content.value;
+  if (!content || content.trim().length=='') {
+    alert("Please, enter post content");
+    return false;
+  }  
+  
+  return true;
+}
+</script>
+{% endif %}
+      
+{% endblock content %}

@@ -1,0 +1,25 @@
+application: im-possible
+version: 1-13
+runtime: python
+api_version: 1
+
+handlers:
+- url: /favicon.ico
+  static_files: template/favicon.ico
+  upload: template/favicon.ico
+
+- url: /robots.txt
+  static_files: template/robots.txt
+  upload: template/robots.txt
+
+- url: /template
+  static_dir: template
+  
+- url: /images
+  static_dir: images  
+
+- url: /js
+  static_dir: js
+
+- url: .*
+  script: main.py

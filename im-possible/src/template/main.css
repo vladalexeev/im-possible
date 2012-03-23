@@ -1,0 +1,298 @@
+* {
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+
+body {
+	background-color: white;
+	margin: 5 5 5 5;
+	padding: 0 0 0 0;
+	font-family:Verdana,Arial,sans-serif;
+	font-size:10pt;
+}
+
+body p {
+	margin-top:0;
+	margin-bottom:5;
+}
+
+.login {
+	margin: 5 5 5 5;
+	text-align: right;
+}
+
+.heading {
+	background-color:#eff6ff;
+	border-style:solid;
+	border-width:1;
+	border-color:#6C9CE4;
+	text-align:center;
+	vertical-align:middle;
+	color:#6C9CE4;
+	font-size:24pt;
+	font-weight:bold;
+	margin: 5 5 5 5;
+	padding: 10 10 10 10
+}
+
+.heading-left {
+	height:133px;
+	width:325px;
+}
+
+.heading-login {
+	height:25px;
+	margin-left:325px;
+	margin-right:0px;
+	margin-top:0;
+	margin-bottom:0;
+	background-image:url(/template/logo-right.gif);
+	background-repeat:no-repeat;
+	text-align:left;
+	padding:0 0 0 0;
+	border-width: 0px;
+	font-size: 10pt;
+}
+
+.heading-banner {
+	height:107px;
+	margin-left:325px;
+	margin-right:0px;
+	margin-top:0;
+	margin-bottom:0;
+	border-width: 0px;
+}
+
+.content {
+	font-size:10pt;
+	margin: 5 5 5 5;
+}
+
+.content h1 {
+	color: #3376DB;
+	font-size: 16pt;
+	text-align: center;
+}
+
+.content h2 {
+	color: #3376DB;
+	font-size: 14pt;
+	text-align: center;
+}
+
+.content form div {
+	margin-top: 10px;
+}
+
+.content-cell {
+}
+
+.content .all-commands {
+	margin-top:10pt;
+	text-align: center;
+}
+
+.user-menu-cell {
+	width: 150;
+	display: table-cell;
+}
+
+.user-menu {
+  margin: 5 5 5 5;
+  width: 150;
+  float: right;
+  font-size: 10pt;
+}
+
+.user-menu-panel {
+  border: solid #6C9CE4 1px;
+  background-color:#D9E8FF;
+  padding: 5 5 5 5;
+  margin: 5 5 5 5;
+}
+
+.user-menu-command {
+}
+
+.delimiter {
+	background-color: #AAC9F8;
+	height: 2px;
+	margin-top:10px;
+	margin-bottom:10px;
+	margin-left:20%;
+	margin-right:20%;
+	font-size: 1;
+}
+
+.delimiter-full {
+  background-color: #AAC9F8;
+  height: 2px;
+  margin-top:10px;
+  margin-bottom:10px;
+  font-size: 1;
+}
+
+
+.footer {
+	font-size:10pt;
+	margin: 0 0 0 0;
+	padding: 5 5 5 5;
+	text-align:center;
+	background-color: #D9E8FF;
+	border-top: solid #AAC9F8 1px;
+}
+
+
+.blogpost {
+}
+
+.vote-block {
+	background-color:#FFEA95;
+	border-style:solid;
+	border-width:1px;
+	border-color:#E2B500;
+	float:left;
+	text-align:center;
+	width:50px;
+	margin: 5 5 5 5;
+}
+
+.post-title {
+	color:#6C9CE4;
+	font-size:16pt;
+	font-weight:bold;
+}
+
+.post-title a:link {
+	color:#6C9CE4;
+	text-decoration: underline;
+}
+.post-title a:visited {
+	color:#266CD4;
+	text-decoration: underline;
+}
+.post-title a:active {
+	color:#266CD4;
+	text-decoration: underline;
+}
+
+.post-title a:hover {
+	color:#266CD4;
+	text-decoration: underline;
+}
+
+.post-details {
+	color:#808080;
+	font-size:8pt;
+}
+
+.post-actions {
+}	
+
+.post-content {
+}
+
+.post-content p {
+	margin-top:0;
+	margin-bottom:8;
+}
+
+.comment-details {
+	background-color:#C8DEFF;
+	color:#000000;
+	font-size:8pt;
+	margin: 10 0 0 0;
+}
+
+.comment-actions {
+	background-color:#C8DEFF;
+}
+
+.comment-content {
+	background-color:#EBF3FF;
+	color:#000000;
+}
+
+.comment-content p {
+	margin-top:0;
+	margin-bottom:8;
+}
+
+.table-common {
+	background-color:#6C9CE4;
+	font-size:10pt;
+}
+
+.table-common td {
+	background-color:#ffffff;
+	padding: 2 2 2 2;
+	text-align: left;
+}
+
+.table-common th {
+	background-color:#DDEBFF;
+	padding: 2 2 2 2;	
+	font-weight: bold;
+	text-align:center;
+}
+
+.content table {
+	font-size: 10pt;
+}
+
+
+
+/*
+Dialog css
+*/
+.dialog-header {
+	/*position: absolute;
+	display:none;*/
+	height: 24px;
+	background-color:#6C9CE4;	
+}
+
+.dialog-header-content {
+  padding: 2 2 2 2;
+  
+  border-top: solid #6C9CE4 1px;
+  border-left: solid #6C9CE4 1px;
+  border-right: solid #6C9CE4 1px;
+  font-size: 12pt;
+  font-family: Verdana, Arial, sans-serif;
+  color: white;
+}
+
+.dialog-frame {	
+	/*position: absolute;
+	display:none;*/
+}
+
+.dialog-frame-content {
+  background:#C7DDFD;
+  padding: 2 2 2 2;
+  border-bottom: solid #6C9CE4 2px;
+  border-left: solid #6C9CE4 2px;
+  border-right: solid #6C9CE4 2px;	
+}
+
+.dialog-frame-content div {
+	margin: 5 5 5 5;
+}
+
+
+/*
+Cube figures styles
+*/
+
+.cube-figure-thumb-block {
+	width: 170px;
+	height: 180px;
+	text-align: center;
+	margin: 5 5 25 5;
+	padding: 5 5 5 5;
+}
+
+.cube-figure-thumb-block div {
+	text-align: center;
+}

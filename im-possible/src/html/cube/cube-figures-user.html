@@ -1,0 +1,40 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<h1>{{ figures_page_title }}</h1>
+
+{% if user_info.user %}
+<div>
+<a href="/cube/constructor"><img src="/images/cube/add-figure.png" height="27" width="111" border="0"/></a>
+</div>
+{% endif %}
+
+
+{% comment %}
+<table class="table-common" cellspacing="1" cellpadding="0" align="center">
+<tr>
+  <th>Date</th>
+  <th>Figure name</th>
+  <th>Actions</th>
+</tr>
+
+
+{% for figure in figures %}
+<tr>
+<td>{{ figure.date|date:"d.m.Y H:i" }}</td>
+<td><a href="/cube/figure/image?{{ figure.figure_key_param }}">{{ figure.name }}</a></td>
+<td>
+  <a href="/cube/constructor?{{ figure.figure_key_param }}">Edit</a>
+  <a href="/cube/figure/delete?{{ figure.figure_key_param }}">Delete</a></td>
+</tr>
+{% endfor %}
+
+</table>
+
+{% endcomment %}
+
+{% include "part-cube-figures.html" %}
+
+
+
+{% endblock content %}

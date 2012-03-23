@@ -1,0 +1,15 @@
+#Sat Oct 30 00:25:52 MSD 2010
+eclipse.preferences.version=1
+encoding//src/cube/cube_pages.py=utf-8
+encoding//src/cube/cube_rss.py=UTF-8
+encoding//src/cube/cube_util.py=UTF-8
+encoding//src/customfilters.py=utf-8
+encoding//src/db/dbmodel.py=UTF-8
+encoding//src/iwc/pages.py=utf-8
+encoding//src/iwc/pages_admin.py=UTF-8
+encoding//src/iwc/rss.py=UTF-8
+encoding//src/iwc/ws_base.py=utf-8
+encoding//src/main.py=utf-8
+encoding//src/test.py=UTF-8
+encoding//src/util/misc.py=utf-8
+encoding//src/util/update.py=UTF-8

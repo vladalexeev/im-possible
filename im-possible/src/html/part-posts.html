@@ -1,0 +1,37 @@
+{% for blogpost in blogposts %}
+<div class="blogpost">
+<div class="post-title"><a href="/post?{{ blogpost.post_key_param }}">
+{% if user_info.admin and not blogpost.visible %}
+  [*** Hidden]
+{% endif %}
+{{ blogpost.title|striptags }}
+</a></div>
+<div class="post-details">
+  {{ blogpost.date|date:"d.m.Y H:i" }} 
+  {% if blogpost.author %}
+    <b>{{ blogpost.author.nickname }}</b>
+  {% else %}
+	anonymous
+  {% endif %}
+  {{ blogpost.language }}
+</div>
+
+{% include "part-votes.html" %}
+      
+<div class="post-content">{{ blogpost.content|striptags|escape|show_hyperlinks|splitlongwords|truncatetext|linebreaks }}</div>
+{% if blogpost.attached_cube_figure %}
+<div style="text-align: center">
+{{ blogpost.attached_cube_figure|cube_figure_thumbnail }}
+</div>
+{% endif %}
+<div style="clear:both"></div>
+</div>
+{% endfor %}
+
+{% if posts_prev_page_url %}
+<a href="{{ posts_prev_page_url }}"><img src="/template/prev-page.gif" border="0"></a>
+{% endif %}
+
+{% if posts_next_page_url %}
+<a href="{{ posts_next_page_url }}"><img src="/template/next-page.gif" border="0"></a>
+{% endif %}

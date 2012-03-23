@@ -1,0 +1,38 @@
+<table border="0" width="100%" cellspacing="5" cellpadding="0" align="center">
+{% for figure_list in figures_table %}
+<tr>
+  {% for figure in figure_list %}
+  <td align="center">
+  <div class="cube-figure-thumb-block">
+  <div>
+    {{ figure|cube_figure_thumbnail }}
+  </div>
+  <div><b>{{ figure.name }}</b></div>  
+  <div><small>{{ figure.date|date:"d.m.Y H:i" }}</small></div>
+  
+  <div><small>by {{ figure.author.nickname }}</small></div>
+  
+  {% if user_info.user|equal:figure.author or user_info.admin %}
+    <div>
+      <a href="/post/edit?attach_cube_figure={{ figure.key }}">Post</a>
+      <a href="/cube/constructor?{{ figure.figure_key_param }}">Edit</a>
+      <a href="/cube/figure/delete?{{ figure.figure_key_param }}">Delete</a>
+    </div>
+  {% else %}    
+  {% endif %}
+  
+  
+  
+  </td>
+  {% endfor %}
+</tr>
+{% endfor %}
+</table>
+
+{% if cube_prev_page_url %}
+<a href="{{ cube_prev_page_url }}"><img src="/template/prev-page.gif" border="0"></a>
+{% endif %}
+
+{% if cube_next_page_url %}
+<a href="{{ cube_next_page_url }}"><img src="/template/next-page.gif" border="0"></a>
+{% endif %}

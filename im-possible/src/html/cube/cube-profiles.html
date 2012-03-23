@@ -1,0 +1,25 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<h1>Cube profiles</h1>
+
+<table class="table-common" cellspacing="1" cellpadding="0" align="center">
+<tr>
+  <th>Default</th>
+  <th>Profile name</th>
+  <th>Actions</th>
+</tr>
+
+{% for profile in profiles %}
+<tr>
+<td>{% if profile.default %}X{% else %}&nbsp;{% endif %}</td>
+<td><a href="/cube/profile?{{ profile.profile_key_param }}">{{ profile.name }}</a></td>
+<td><a href="/cube/profile/delete?{{ profile.profile_key_param }}">Delete</a></td>
+</tr>
+{% endfor %}
+
+</table>
+
+<a href="/cube/profile">Add profile</a>
+
+{% endblock content %}

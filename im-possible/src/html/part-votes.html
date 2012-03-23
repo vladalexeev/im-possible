@@ -1,0 +1,21 @@
+{% comment %}
+Блок страницы, показывающий количество голосов, а также
+ссылку для голосования
+{% endcomment %}
+<div class="vote-block">
+<div class="vote">[<span id="vote_{{ blogpost.key }}">{{ blogpost.votes_count }}</span>]</div>
+{% if user_info.user %}
+  {% ifequal blogpost.author user_info.user %}
+    <div>Owner</div>
+  {% else %}
+    {% if blogpost.votes|contains:user_info.user %}
+      <div id="voted_{{ blogpost.key }}">Voted</div>
+    {% else %}
+      <div id="voted_{{ blogpost.key }}" style="display:none">Voted</div>
+      <div id="vote_link_{{blogpost.key}}"><a href="#" onclick="ajaxSendRequest('/post/vote?{{ blogpost.post_key_param }}')">Vote!</a></div>
+    {% endif %}
+  {% endifequal %}
+{% else %}
+  <div>Votes</div>
+{% endif %}  
+</div>

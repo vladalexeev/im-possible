@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block user_menu %}
+{{ block.super }}
+{% if user_info.user and user_info.admin and not user_info.banned %}
+    <div class="user-menu-panel">
+    <div class="user-menu-command"><a href="/admin/user/banned">Banned users</a></div>
+    <div class="user-menu-command"><a href="/comment/all">All comments</a></div>
+    <div class="user-menu-command"><a href="/config">Configuration</a></div>
+    <div class="user-menu-command"><a href="/cube/profiles">Cube profiles</a></div>    
+    </div>
+{% endif %}
+{% endblock user_menu %}
+
+
+
+
+{% block content %}  
+
+<h2>Latest impossible figures</h2>
+
+
+<div class="all-commands">
+<a href="{{ user_info.url_create_cubic_figure }}"><img src="/images/cube/add-figure.png" height="27" width="111" border="0"/></a>
+</div>
+
+
+<table border="0" cellspacing="5" cellpadding="0" width="100%">
+<tr>
+{% for figure in figures %}
+<td align="center">
+  <div>
+    {{ figure|cube_figure_thumbnail }}
+  </div>
+  <div><b>{{ figure.name }}</b></div>  
+  <div><small>{{ figure.date|date:"d.m.Y H:i" }}</small></div>
+  
+  <div><small>by {{ figure.author.nickname }}</small></div>
+</td>
+{% endfor %}
+<td>
+<a href="/cube/figures/all"><img src="/template/all-figures.gif" border="0"/></a>
+</td>
+</tr>
+</table>
+
+<div class="delimiter"></div>
+
+<h2>Latest posts</h2>
+
+{% if not user_info.banned %}
+<div class="all-commands">
+<a href="{{ user_info.url_add_post }}"><img src="/template/add-post.png" border="0"></a>
+</div>
+{% endif %}
+
+{% include "part-posts.html" %}
+  
+
+{% endblock content %}

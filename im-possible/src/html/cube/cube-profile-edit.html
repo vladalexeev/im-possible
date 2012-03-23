@@ -1,0 +1,101 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<h1>Cube profile</h1>
+<form action="/cube/profile/save?{{ profile.profile_key_param }}" method="post" enctype="multipart/form-data">
+  <table border="0">
+    <tr>
+      <td>Name</td>
+      <td><input type="text" name="name" value="{{ profile.name }}"></td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <input type="checkbox" name="default" {% if profile.default %}checked="1"{% endif %}>
+        <label for="default">Default profile</label>
+      </td>
+    </tr>
+    <tr>
+      <td>Cube width</td>
+      <td><input type="text" name="cube_width" value="{{ profile.cube_width }}"></td>
+    </tr>
+    <tr>
+      <td>Cube height</td>
+      <td><input type="text" name="cube_height" value="{{ profile.cube_height }}"></td>
+    </tr>
+    <tr>
+      <td>Cube center X</td>
+      <td><input type="text" name="cube_center_x" value="{{ profile.cube_center_x }}"></td>
+    </tr>
+    <tr>
+      <td>Cube center Y</td>
+      <td><input type="text" name="cube_center_y" value="{{ profile.cube_center_y }}"></td>
+    </tr>
+    <tr>
+      <td>Grid width</td>
+      <td><input type="text" name="grid_width" value="{{ profile.grid_width }}"></td>
+    </tr>
+    <tr>
+      <td>Grid height</td>
+      <td><input type="text" name="grid_height" value="{{ profile.grid_height }}"></td>
+    </tr>
+    
+    <tr>
+      <td>Grid image</td>
+      <td><input type="file" name="grid_image"></td>
+    </tr>
+    
+    <tr>
+      <td></td>
+      <td><hr /></td>
+    </tr>
+
+    <tr>
+      <td>Static files mask</td>
+      <td><input type="text" name="static_cubes_image" value="{{ profile.static_cubes_image }}"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>(Example /images/cube/rgb/full.png)</td>
+    </tr>
+
+    <tr>
+      <td>Static grid image</td>
+      <td><input type="text" name="static_grid_image" value="{{ profile.static_grid_image }}"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>(Example /images/cube/rgb/background-grid.png)</td>
+    </tr>
+   
+  </table>
+  <hr>
+
+  <table border="0">
+{% comment %} 
+  {% for binary in cubes_binaries %}
+    <tr>
+      <td>{{ binary }}</td>
+      <td><img src="{{ static_files|hash:binary }}" /></td>
+      <td><img src="/cube/profile/image?binary={{ binary }}&{{ profile.profile_key_param }}" /></td>
+      <td><input type="file" name="img{{ binary }}"/></td>       
+    </tr>
+  {% endfor %}
+{%  endcomment %}  
+  
+{%  for item in binary_items %}
+    <tr>
+      <td>{{ item.binary }}</td>
+      <td width="45">
+        <div id="cube{{ item.binary }}x" 
+          style="background: url('/images/cube/rgb/full.png') no-repeat {{ item.map_x }}px {{ item.map_y }}px; width:45px; height:49px; ">&nbsp;</div>      
+      </td>
+      <td style="background-color:#c0c0c0;"><img src="/cube/profile/image?binary={{ item.binary }}&{{ profile.profile_key_param }}" /></td>
+      <td><input type="file" name="img{{ item.binary }}"/></td>       
+    </tr>
+{% endfor %}
+  
+  </table>
+  <div><input type="submit"/></div>
+</form>  
+      
+{% endblock content %}

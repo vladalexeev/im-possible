@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Banned users</h1>
+<table class="table-common" cellspacing="1" cellpadding="0" align="center">
+<tr>
+  <th>Nick name</th>
+  <th>E-mail</th>
+  <th>Date</th>
+  <th>Actions</th>
+</tr>
+
+{% for banneduser in bannedusers %}
+<tr>
+  <td>{{ banneduser.user.nickname }}</td>
+  <td>{{ banneduser.user.email }}</td>
+  <td>{{ banneduser.ban_date|date:"d.m.Y" }}</td>
+  <td><a href="/admin/user/unban?banned_user_key={{ banneduser.key }}">Unban</a></td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock content %}
