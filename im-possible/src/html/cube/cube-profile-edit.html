@@ -16,27 +16,27 @@
     </tr>
     <tr>
       <td>Cube width</td>
-      <td><input type="text" name="cube_width" value="{{ profile.cube_width }}"></td>
+      <td><input type="text" name="cube_width" value="{{ profile.cube_width|default:45 }}"></td>
     </tr>
     <tr>
       <td>Cube height</td>
-      <td><input type="text" name="cube_height" value="{{ profile.cube_height }}"></td>
+      <td><input type="text" name="cube_height" value="{{ profile.cube_height|default:49 }}"></td>
     </tr>
     <tr>
       <td>Cube center X</td>
-      <td><input type="text" name="cube_center_x" value="{{ profile.cube_center_x }}"></td>
+      <td><input type="text" name="cube_center_x" value="{{ profile.cube_center_x|default:22 }}"></td>
     </tr>
     <tr>
       <td>Cube center Y</td>
-      <td><input type="text" name="cube_center_y" value="{{ profile.cube_center_y }}"></td>
+      <td><input type="text" name="cube_center_y" value="{{ profile.cube_center_y|default:23 }}"></td>
     </tr>
     <tr>
       <td>Grid width</td>
-      <td><input type="text" name="grid_width" value="{{ profile.grid_width }}"></td>
+      <td><input type="text" name="grid_width" value="{{ profile.grid_width|default:62 }}"></td>
     </tr>
     <tr>
       <td>Grid height</td>
-      <td><input type="text" name="grid_height" value="{{ profile.grid_height }}"></td>
+      <td><input type="text" name="grid_height" value="{{ profile.grid_height|default:36 }}"></td>
     </tr>
     
     <tr>
@@ -51,7 +51,7 @@
 
     <tr>
       <td>Static files mask</td>
-      <td><input type="text" name="static_cubes_image" value="{{ profile.static_cubes_image }}"></td>
+      <td><input type="text" name="static_cubes_image" value="{{ profile.static_cubes_image|default:"/images/cube/rgb/full.png" }}"></td>
     </tr>
     <tr>
       <td></td>
@@ -60,7 +60,7 @@
 
     <tr>
       <td>Static grid image</td>
-      <td><input type="text" name="static_grid_image" value="{{ profile.static_grid_image }}"></td>
+      <td><input type="text" name="static_grid_image" value="{{ profile.static_grid_image|default:"/images/cube/rgb/background-grid.png" }}"></td>
     </tr>
     <tr>
       <td></td>
