@@ -18,10 +18,11 @@
       <a href="/cube/constructor?{{ figure.figure_key_param }}">Edit</a>
       <a href="/cube/figure/delete?{{ figure.figure_key_param }}">Delete</a>
     </div>
+    <center>
+    <div class="rating rating{{ figure.rating|default:0}}" figure_name="{{ figure.url_name }}" rating="{{ figure.rating|default:0}}"></div>
+    </center>
   {% else %}    
   {% endif %}
-  
-  
   
   </td>
   {% endfor %}
@@ -35,4 +36,42 @@
 
 {% if cube_next_page_url %}
 <a href="{{ cube_next_page_url }}"><img src="/template/next-page.gif" border="0"></a>
+{% endif %}
+
+{% if user_info.admin %}
+<script language="JavaScript">
+function showElementRating(elem,rating) {
+	for (var i=0; i<11; i++) {
+		elem.removeClass("rating"+i);
+	}
+	elem.addClass("rating"+rating);
+}
+
+$(function() {
+	$(".rating").each(function() {
+		$(this).mousemove(function(event){
+			var x=event.clientX-$(this).offset().left;
+			var r=Math.floor(x*11/100);
+			showElementRating($(this),r);
+		})
+		
+		$(this).mouseout(function(event) {
+			var r=$(this).attr("rating");
+			showElementRating($(this),r);
+		});
+		
+		$(this).mousedown(function(event) {
+			var x=event.clientX-$(this).offset().left;
+			var r=Math.floor(x*11/100);
+			var name=$(this).attr("figure_name");
+			var elem=$(this)
+			$.get("/cube/figure/rating?cube_figure="+name+"&rating="+r,
+				function(data) {
+					elem.attr("rating",data);
+					showElementRating(elem,data);
+				});
+		});
+	})
+})
+</script>
 {% endif %}

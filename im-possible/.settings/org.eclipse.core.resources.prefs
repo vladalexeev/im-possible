@@ -1,8 +1,8 @@
-#Sat Mar 24 15:43:15 MSK 2012
+#Sun Mar 25 13:36:35 MSD 2012
 eclipse.preferences.version=1
 encoding//src/cube/cube_pages.py=utf-8
 encoding//src/cube/cube_rss.py=UTF-8
-encoding//src/cube/cube_util.py=UTF-8
+encoding//src/cube/cube_util.py=utf-8
 encoding//src/customfilters.py=utf-8
 encoding//src/db/dbmodel.py=utf-8
 encoding//src/iwc/pages.py=utf-8

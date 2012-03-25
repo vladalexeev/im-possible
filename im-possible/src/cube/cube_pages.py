@@ -217,8 +217,6 @@ class ActionCubeFigureSave(BasicRequestHandler):
         else:
             figure=CubeFigure()
             figure.author = users.get_current_user()
-            figure.checked = False
-            figure.shared = False
             figure.url_name = createCubeFigureUniqueName(figure_name)
             
         figure.name = figure_name
@@ -267,7 +265,26 @@ class ActionCubeFigureDelete(BasicRequestHandler):
         self.redirect('/cube/figures/user')
 
 
-
+class ActionCubeFigureRating(BasicRequestHandler):
+    """Действие назначения рейтинга фигуре администратором"""
+    def get(self):
+        if not self.user_info.admin:
+            logger.error("Set rating is allowed for admins only")
+            
+        figure = getCubeFigureFromRequest(self)
+        if not figure:
+            logger.error('No figure to set rating')
+            self.response.set_status(403)
+            return
+        
+        if not figure:
+            logger.error('Figure not found')
+            
+        rating=int(self.request.get("rating"));
+        figure.rating=rating
+        CubeFigure.save(figure);
+        
+        self.response.out.write(str(rating))
 
 class ImageFigureRequest(webapp.RequestHandler):
     """Обработчик запроса, возвращающий изображение фигуры"""

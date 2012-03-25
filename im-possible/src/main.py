@@ -72,6 +72,7 @@ application = webapp.WSGIApplication([
                                       ('/cube/figure/save', cube_pages.ActionCubeFigureSave),
                                       ('/cube/figure/delete', cube_pages.ActionCubeFigureDelete),
                                       ('/cube/figure/image', cube_pages.ImageFigureRequest),
+                                      ('/cube/figure/rating', cube_pages.ActionCubeFigureRating),
                                       ('/rss/cube',cube_rss.RssFigures),
                                       
                                       ('/update/posts',update.ActionUpdatePosts),

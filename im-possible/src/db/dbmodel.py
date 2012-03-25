@@ -105,11 +105,10 @@ class CubeFigure(db.Model):
     date = db.DateTimeProperty(auto_now_add=True)
     url_name = db.StringProperty()
     
-    shared = db.BooleanProperty()
-    checked = db.BooleanProperty()
-    
     full_image = db.BlobProperty()
     small_image = db.BlobProperty()
+    
+    rating = db.IntegerProperty();
     
     def figure_key_param(self):
         if self.has_key():
