@@ -18,6 +18,9 @@
       <a href="/cube/constructor?{{ figure.figure_key_param }}">Edit</a>
       <a href="/cube/figure/delete?{{ figure.figure_key_param }}">Delete</a>
     </div>
+  {% else %}    
+  {% endif %}
+  {% if user_info.admin %}
     <center>
     <div class="rating rating{{ figure.rating|default:0}}" figure_name="{{ figure.url_name }}" rating="{{ figure.rating|default:0}}"></div>
     </center>
