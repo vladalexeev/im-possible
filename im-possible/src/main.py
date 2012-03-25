@@ -68,6 +68,7 @@ application = webapp.WSGIApplication([
                                       ('/cube/profile/delete', cube_pages.ActionCubeProfileDelete),
                                       ('/cube/figures/user', cube_pages.PageCubeFiguresUser),
                                       ('/cube/figures/all', cube_pages.PageCubeFiguresAll),
+                                      ('/cube/figures/best', cube_pages.PageCubeFiguresBest),
                                       ('/cube/constructor', cube_pages.PageCubeConstructor),
                                       ('/cube/figure/save', cube_pages.ActionCubeFigureSave),
                                       ('/cube/figure/delete', cube_pages.ActionCubeFigureDelete),

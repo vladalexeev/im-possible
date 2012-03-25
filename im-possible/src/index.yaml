@@ -60,3 +60,16 @@ indexes:
   - name: author
   - name: date
     direction: desc
+
+- kind: CubeFigure
+  properties:
+  - name: rating
+    direction: desc
+  - name: date
+    direction: desc
+
+- kind: CubeFigure
+  properties:
+  - name: rating>
+  - name: date
+    direction: desc

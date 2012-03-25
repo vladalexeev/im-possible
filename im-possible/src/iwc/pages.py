@@ -39,7 +39,7 @@ class PageMain(BasicRequestHandler):
         
         template_values=getPosts(start_index, page_size)
         
-        figures = CubeFigure.all().order('-date').fetch(3, 0)
+        figures = CubeFigure.all().filter("rating >",5).order('-rating').order("-date").fetch(3, 0)
         
         template_values['figures']=figures
         

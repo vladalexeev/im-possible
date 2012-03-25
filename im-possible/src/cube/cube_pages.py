@@ -330,7 +330,7 @@ class PageCubeFiguresBase(BasicRequestHandler):
         
         page_size = 12
         
-        figures = figures_query.order('-date').fetch(page_size+1, start_index)
+        figures = figures_query.fetch(page_size+1, start_index)
         
         next_page_url = None
         prev_page_url = None
@@ -365,7 +365,7 @@ class PageCubeFiguresUser(PageCubeFiguresBase):
         if not users.get_current_user():            
             return None
             
-        return CubeFigure.all().filter('author',users.get_current_user())
+        return CubeFigure.all().filter('author',users.get_current_user()).order('-date')
         
     def get_page_title(self):
         return 'My figures'
@@ -377,11 +377,22 @@ class PageCubeFiguresUser(PageCubeFiguresBase):
 class PageCubeFiguresAll(PageCubeFiguresBase):
     """Страница, показывающая фигуры всех пользователей по хронологии"""
     def get_cube_query(self):
-        return CubeFigure.all()
+        return CubeFigure.all().order('-date')
     
     def get_page_title(self):
         return 'All figures'
     
     def get_page_uri(self):
         return '/cube/figures/all'
+    
+class PageCubeFiguresBest(PageCubeFiguresBase):
+    """Страница, показывающая ЛУЧШИЕ фигуры всех пользователей по хронологии"""
+    def get_cube_query(self):
+        return CubeFigure.all().filter("rating >",5).order('-rating').order("-date")
+    
+    def get_page_title(self):
+        return 'Best figures'
+    
+    def get_page_uri(self):
+        return '/cube/figures/best'
         
