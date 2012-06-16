@@ -147,6 +147,11 @@ class ActionPostCommentEdit(BasicRequestHandler):
 class ActionPostSign(BasicRequestHandler):
     """ Сохранение поста """
     def post(self):
+        if not self.user_info.user:
+            logger.error('Try to sign post by anonymous user');
+            self.response.set_status(403);
+            return;
+        
         if self.user_info.banned:
             logger.error('Try to sign post by banned user')
             self.response.set_status(403)
