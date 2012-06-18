@@ -51,6 +51,10 @@ class PagePostDetails(BasicRequestHandler):
     def get(self):
         blogpost = getPostFromRequestOrLast(self)
         
+        if not blogpost:
+            self.response.set_status(404)
+            return
+        
         if not blogpost.visible and not users.is_current_user_admin():
             logger.error('Access to invisible post')
             self.response.set_status(403)
