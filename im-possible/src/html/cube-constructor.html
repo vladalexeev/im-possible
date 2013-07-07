@@ -86,7 +86,7 @@
 .selected-cubes {
   border: solid #6C9CE4 1px;
   height:80px;
-  background-color:#EFF6FF;;
+  background-color:#EFF6FF;
 }
 
 .selected-cubes-hint {
@@ -759,7 +759,7 @@ function removeOverlappedCube(x,y) {
 onButtonCubeClick(cubeButtons[0]);
 
 {% for cube in figure_cubes %}
-addFigureCube({{ cube }});
+addFigureCube({{ cube|safe }});
 {%  endfor %}
 
 </script> 

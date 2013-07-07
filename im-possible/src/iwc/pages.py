@@ -88,11 +88,6 @@ class PageBannedUsers(BasicRequestHandler):
 class PagePostEdit(BasicRequestHandler):
     """ Страница для редактирования или добавления поста """
     def get(self):
-#        blogpost_name=self.request.get(const.param_post_name)
-#        blogpost = None
-#        if blogpost_name:
-#            blogpost = getPostByName(blogpost_name)
-            
         blogpost = getPostFromRequest(self)
             
         if not blogpost or blogpost.author==users.get_current_user() or users.is_current_user_admin():
@@ -197,7 +192,7 @@ class ActionPostSign(BasicRequestHandler):
         
         blogpost.comments_enabled = True;
         
-        if blogpost.content and blogpost.title:             
+        if blogpost.content and blogpost.title:
             blogpost.put()
             
         self.redirect('/post?'+blogpost.post_key_param())
@@ -208,7 +203,7 @@ class ActionPostDelete(webapp.RequestHandler):
     def get(self):
         if users.is_current_user_admin():
             blogpost = getPostFromRequest(self)
-            BlogPost.delete(blogpost)
+            db.delete(blogpost)
             
         self.redirect('/')
         
@@ -234,7 +229,7 @@ class ActionPostCommentSign(BasicRequestHandler):
             
         content=util.misc.removeDangerousHtmlTags(self.request.get('content'))
         if blogpost and content:        
-            comment = BlogPostComment()
+            comment = BlogPostComment(parent=blogpost)
             comment.reference=blogpost
             comment.author=users.get_current_user()
             comment.content=content
@@ -426,7 +421,7 @@ def getPostFromRequestOrLast(request_handler):
     """Получение поста, на основе параметров запроса"""
     post_key=request_handler.request.get(const.param_post_key)
     if post_key:
-        return getPostByName(post_key)
+        return BlogPost.get(post_key)
     else: 
         return getLastPost()
         
@@ -434,7 +429,7 @@ def getPostFromRequest(request_handler):
     """Получение поста, на основе параметров запроса"""
     post_key=request_handler.request.get(const.param_post_key)
     if post_key:
-        return getPostByName(post_key)
+        return BlogPost.get(post_key)
     else: 
         return None
         

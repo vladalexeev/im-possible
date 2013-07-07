@@ -12,7 +12,7 @@ from xml.dom import minidom
 from db.dbmodel import *
 
 import const
-import customfilters
+import common.customfilters
 
 
 
@@ -62,7 +62,7 @@ class RssPosts(webapp.RequestHandler):
             
             itemContent=post.content
             if hasattr(post,'attached_cube_figure'):
-                itemContent+='<p>'+customfilters.cube_figure_thumbnail(post.attached_cube_figure)+'</p>'
+                itemContent+='<p>'+common.customfilters.cube_figure_thumbnail(post.attached_cube_figure)+'</p>'
 #                itemContent+='<p><img src="http://im-possible.appspot.com/cube/figure/image?figure_key='+post.attached_cube_figure+'&image_type=small" /></p>'
             
             itemDescription = doc.createElement('description')

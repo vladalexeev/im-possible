@@ -5,7 +5,7 @@
   <td align="center">
   <div class="cube-figure-thumb-block">
   <div>
-    {{ figure|cube_figure_thumbnail }}
+    {{ figure|cube_figure_thumbnail|safe }}
   </div>
   <div><b>{{ figure.name }}</b></div>  
   <div><small>{{ figure.date|date:"d.m.Y H:i" }}</small></div>

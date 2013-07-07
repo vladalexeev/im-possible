@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from google.appengine.ext.webapp import template
-from db.dbmodel import *
+from db.dbmodel import CubeFigure
 
 def contains(x,element):
     """Фильтр для шаблонов, определяющий находится ли элемент 

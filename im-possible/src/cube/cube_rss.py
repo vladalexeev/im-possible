@@ -12,7 +12,7 @@ from xml.dom import minidom
 from db.dbmodel import *
 
 import const
-import customfilters
+import common.customfilters
 
 
 
@@ -62,7 +62,7 @@ class RssFigures(webapp.RequestHandler):
             
             itemDescription = doc.createElement('description')
             itemDescription.appendChild(doc.createTextNode('<p>Impossible figure: "'+figure.name+'"</p>'+
-                                                           '<p>'+customfilters.cube_figure_thumbnail(figure)+'</p>'))
+                                                           '<p>'+common.customfilters.cube_figure_thumbnail(figure)+'</p>'))
             item.appendChild(itemDescription)
             
             itemAuthor = doc.createElement('author')

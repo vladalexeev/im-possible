@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from google.appengine.ext import db
 from google.appengine.api import users
-from png.pngc import *
+#from png.pngc import *
 
 import const
 
-__name__='dbmodel'
+#__name__='dbmodel'
 
 class BlogPost(db.Expando):
     """ Post of the blog """
@@ -27,7 +27,7 @@ class BlogPost(db.Expando):
             return 0
     
     def post_key_param(self):
-        return const.param_post_key+'='+self.url_name
+        return 'post_key='+str(self.key())
     
     def post_details_url(self):
         return '/post?'+self.post_key_param()

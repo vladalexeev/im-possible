@@ -21,7 +21,7 @@
 <div class="post-content">{{ blogpost.content|striptags|escape|show_hyperlinks|splitlongwords|truncatetext|linebreaks }}</div>
 {% if blogpost.attached_cube_figure %}
 <div style="text-align: center">
-{{ blogpost.attached_cube_figure|cube_figure_thumbnail }}
+{{ blogpost.attached_cube_figure|cube_figure_thumbnail|safe }}
 </div>
 {% endif %}
 <div style="clear:both"></div>

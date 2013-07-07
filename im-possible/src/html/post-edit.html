@@ -11,7 +11,7 @@ You cannot use HTML-tags.
 </p>
 
 <form action="/post/sign?{{ blogpost.post_key_param }}" method="post" onsubmit="return checkForm()" name="postForm">
-  {{ attach_cube_figure|cube_figure_thumbnail|div_decorate }}
+  {{ attach_cube_figure|cube_figure_thumbnail|div_decorate|safe }}
   <div>Title <input type="text" name="title" size="60" value="{{ blogpost.title }}"></div>
   <p></p>
   <div>Message</div>
@@ -32,7 +32,7 @@ You cannot use HTML-tags.
     
   {% if blogpost.attached_cube_figure %}
   <div style="text-align: center">
-  {{ blogpost.attached_cube_figure|cube_figure_thumbnail }}
+  {{ blogpost.attached_cube_figure|cube_figure_thumbnail|safe }}
   </div>
   {% endif %}
   

@@ -27,7 +27,7 @@ class PageCubeProfiles(BasicRequestHandlerAdmin):
     def get_admin(self):
         profiles = CubeProfile.all()
         
-        self.write_template('html/cube/cube-profiles.html', {'profiles':profiles})
+        self.write_template('html/cube-profiles.html', {'profiles':profiles})
         
         
 class PageCubeProfile(BasicRequestHandlerAdmin):
@@ -65,7 +65,7 @@ class PageCubeProfile(BasicRequestHandlerAdmin):
                            'cubes':cubes
                            }
         
-        self.write_template('html/cube/cube-profile-edit.html', template_values)
+        self.write_template('html/cube-profile-edit.html', template_values)
         
         
 
@@ -189,7 +189,7 @@ class PageCubeConstructor(BasicRequestHandler):
                            'figure_cubes':figure_cubes
                            }
         
-        self.write_template('html/cube/cube-constructor.html', template_values)
+        self.write_template('html/cube-constructor.html', template_values)
         
         
 class ActionCubeFigureSave(BasicRequestHandler):
@@ -356,7 +356,7 @@ class PageCubeFiguresBase(BasicRequestHandler):
                            'cube_prev_page_url': prev_page_url
                            }
         
-        self.write_template('html/cube/cube-figures-user.html', template_values)
+        self.write_template('html/cube-figures-user.html', template_values)
     
             
 class PageCubeFiguresUser(PageCubeFiguresBase):

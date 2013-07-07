@@ -12,7 +12,7 @@ from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 
-from customfilters import *
+from common.customfilters import *
 #from utils import *
 
 #import const
@@ -80,7 +80,7 @@ application = webapp.WSGIApplication([
                                       ('/update/figures', update.ActionUpdateCubeFigures)
                                      ], debug=True)
 
-webapp.template.register_template_library('customfilters')
+webapp.template.register_template_library('common.customfilters')
 
 
 def main():
