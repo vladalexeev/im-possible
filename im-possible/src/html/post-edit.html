@@ -13,6 +13,7 @@ You cannot use HTML-tags.
 <form action="/post/sign?{{ blogpost.post_key_param }}" method="post" onsubmit="return checkForm()" name="postForm">
   {{ attach_cube_figure|cube_figure_thumbnail|div_decorate|safe }}
   <div>Title <input type="text" name="title" size="60" value="{{ blogpost.title }}"></div>
+  <div>Url name: <b>{{ blogpost.url_name }}</b></div>
   <p></p>
   <div>Message</div>
   <div><textarea name="content" rows="10" cols="80">{{ blogpost.content }}</textarea></div>

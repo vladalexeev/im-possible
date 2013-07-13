@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os
-import cgi
-import datetime
-import time
-
-import logging
 
 from google.appengine.api import users
 from google.appengine.ext import db
@@ -68,6 +62,31 @@ class PagePostDetails(BasicRequestHandler):
                           }
         
         self.write_template('html/post-details.html', template_values)
+        
+class PagePostDetails2(BasicRequestHandler):
+    """ Страница с постом и комментариями """
+    def get(self,*ar):
+        post_name=ar[0]
+        blogpost = getPostByName(post_name)
+        
+        if not blogpost:
+            self.response.set_status(404)
+            return
+        
+        if not blogpost.visible and not users.is_current_user_admin():
+            logger.error('Access to invisible post')
+            self.response.set_status(403)
+            return
+        
+        comments = BlogPostComment.all().filter('reference', blogpost).filter('visible =', True).order('date')
+        
+        template_values= {
+                          'blogpost': blogpost,
+                          'comments': comments
+                          }
+        
+        self.write_template('html/post-details.html', template_values)
+
         
 class PageBannedUsers(BasicRequestHandler):
     """ Страница с забаннеными пользователями """

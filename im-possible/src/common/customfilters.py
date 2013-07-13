@@ -84,8 +84,8 @@ def cube_figure_thumbnail(figure):
     if not figure:
         return '<small><b>Figure not found</b></small>'
     else:    
-        return '<a href="/cube/figure/image?'+figure.figure_key_param()+'">'+\
-            '<img src="/cube/figure/image?image_type=small&'+figure.figure_key_param()+'" border="0" alt="'+\
+        return '<a href="/cube/figure/image/'+figure.url_name+'">'+\
+            '<img src="/cube/figure/thumbnail/'+figure.url_name+'" border="0" alt="'+\
             figure.name+'" title="'+figure.name+'"/></a>'
 
 def div_decorate(text):

@@ -288,21 +288,27 @@ class ActionCubeFigureRating(BasicRequestHandler):
 
 class ImageFigureRequest(webapp.RequestHandler):
     """Обработчик запроса, возвращающий изображение фигуры"""
-    def get(self):
-        figure = getCubeFigureFromRequest(self)
+    def get(self,*ar):
+        figure_name=ar[0]
+        figure = getCubeFigure(figure_name)
         if not figure:
             self.response.set_status(404)
             return 
                 
-        image_type = self.request.get('image_type')
-
+        self.response.headers['Content-Type']='image/png'     
+        self.response.out.write(figure.full_image)
+            
+class ThumbnailFigureRequest(webapp.RequestHandler):
+    """Обработчик запроса, возвращающий уменьшенный эскиз фигуры"""
+    def get(self,*ar):
+        figure_name=ar[0]
+        figure = getCubeFigure(figure_name)
+        if not figure:
+            self.response.set_status(404)
+            return 
+                
         self.response.headers['Content-Type']='image/png'        
-        
-        
-        if not image_type or image_type == 'full':
-            self.response.out.write(figure.full_image)
-        else:
-            self.response.out.write(figure.small_image)
+        self.response.out.write(figure.small_image)
 
 
 class PageCubeFiguresBase(BasicRequestHandler):

@@ -38,6 +38,7 @@ from util import update
 
 application = webapp.WSGIApplication([
                                       ('/', pages.PageMain),
+                                      ('/posts/(.*)', pages.PagePostDetails2),
                                       ('/posts', pages.PagePosts),
                                       ('/post/sign', pages.ActionPostSign),
                                       ('/post', pages.PagePostDetails),
@@ -72,7 +73,8 @@ application = webapp.WSGIApplication([
                                       ('/cube/constructor', cube_pages.PageCubeConstructor),
                                       ('/cube/figure/save', cube_pages.ActionCubeFigureSave),
                                       ('/cube/figure/delete', cube_pages.ActionCubeFigureDelete),
-                                      ('/cube/figure/image', cube_pages.ImageFigureRequest),
+                                      ('/cube/figure/image/(.*)', cube_pages.ImageFigureRequest),
+                                      ('/cube/figure/thumbnail/(.*)', cube_pages.ThumbnailFigureRequest),
                                       ('/cube/figure/rating', cube_pages.ActionCubeFigureRating),
                                       ('/rss/cube',cube_rss.RssFigures),
                                       

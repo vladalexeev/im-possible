@@ -1,6 +1,6 @@
 {% for blogpost in blogposts %}
 <div class="blogpost">
-<div class="post-title"><a href="/post?{{ blogpost.post_key_param }}">
+<div class="post-title"><a href="/posts/{{ blogpost.url_name }}">
 {% if user_info.admin and not blogpost.visible %}
   [*** Hidden]
 {% endif %}
