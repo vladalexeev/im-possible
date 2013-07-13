@@ -3,10 +3,6 @@ from google.appengine.ext import db
 from google.appengine.ext.webapp import template
 from db.dbmodel import CubeFigure
 
-from util import misc
-
-logger=misc.LoggerWrapper()
-
 def contains(x,element):
     """Фильтр для шаблонов, определяющий находится ли элемент 
     внутри списка. """    
@@ -74,8 +70,6 @@ def cube_figure_thumbnail(figure):
     """Фильтр для вывода эскиза фигры из кубиков"""
     if not figure:
         return ''
-    
-    logger.error('cube_figure_thumbnail')
     
     if not isinstance(figure, CubeFigure):
         key=db.Key(figure)

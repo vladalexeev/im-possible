@@ -3,7 +3,7 @@
 #import cgi
 #import datetime
 #import time
-import wsgiref.handlers
+#import wsgiref.handlers
 
 #import logging
 
@@ -12,7 +12,7 @@ from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 
-from common.customfilters import *
+#from common.customfilters import *
 #from utils import *
 
 #import const
@@ -85,9 +85,9 @@ application = webapp.WSGIApplication([
 webapp.template.register_template_library('common.customfilters')
 
 
-def main():
-    wsgiref.handlers.CGIHandler().run(application)
-
-
-if __name__ == '__main__':
-    main()
+#def main():
+#    wsgiref.handlers.CGIHandler().run(application)
+#
+#
+#if __name__ == '__main__':
+#    main()
