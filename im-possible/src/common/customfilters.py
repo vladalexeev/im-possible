@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
+from google.appengine.ext import db
 from google.appengine.ext.webapp import template
 from db.dbmodel import CubeFigure
+
+from util import misc
+
+logger=misc.LoggerWrapper()
 
 def contains(x,element):
     """Фильтр для шаблонов, определяющий находится ли элемент 
@@ -70,8 +75,11 @@ def cube_figure_thumbnail(figure):
     if not figure:
         return ''
     
+    logger.error('cube_figure_thumbnail')
+    
     if not isinstance(figure, CubeFigure):
-        figure = CubeFigure.get(figure)
+        key=db.Key(figure)
+        figure = CubeFigure.get(key)
         
     if not figure:
         return '<small><b>Figure not found</b></small>'

@@ -12,11 +12,6 @@ indexes:
 
 - kind: BlogPost
   properties:
-  - name: date
-    direction: desc
-
-- kind: BlogPost
-  properties:
   - name: visible
   - name: date
     direction: desc
@@ -25,11 +20,6 @@ indexes:
   properties:
   - name: visible
   - name: rating
-    direction: desc
-
-- kind: BlogPostComment
-  properties:
-  - name: date
     direction: desc
 
 - kind: BlogPostComment
