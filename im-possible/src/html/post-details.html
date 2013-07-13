@@ -2,20 +2,22 @@
 
 {% block content %}
 <div class="blogpost">
+<div class="post-header">
+<div class="post-details">
+<div>{{ blogpost.date|date:"d.m.Y H:i" }}</div> 
+{% if blogpost.author %}
+  <div><b>{{ blogpost.author.nickname }}</b></div>
+{% else %}
+  <div>anonymous</div>
+{% endif %}
+</div>
 <div class="post-title">
 {% if user_info.admin and not blogpost.visible %}
   [*** Hidden]
 {% endif %}
 {{ blogpost.title }}
-</div>      
-<div class="post-details">
-{{ blogpost.date|date:"d.m.Y H:i" }} 
-{% if blogpost.author %}
-  <b>{{ blogpost.author.nickname }}</b>
-{% else %}
-  anonymous
-{% endif %}
-{{ blogpost.language }}
+</div>
+<div style="clear:both"></div>
 </div>
       
 <div class="post-actions">
